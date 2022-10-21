@@ -1,0 +1,46 @@
+.App {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+  height: 100vh;
+}
+
+.result{
+  display: flex;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 3rem 3rem 3rem 3rem 3rem;
+  grid-template-rows: 3rem 3rem 3rem 3rem 3rem 3rem;
+  grid-gap: 3px;
+}
+
+.item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  cursor: pointer;
+  -webkit-user-select:none;
+  -khtml-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  -o-user-select:none;
+  user-select:none;
+}
+
+.absent {
+  background-color:#787c7e;
+}
+.correct{
+  background-color: #6aaa64;
+}
+.present{
+  background-color: #c9b458;
+}
+.empty{
+  border: 1px solid  #d3d6da;
+  background-color: white;
+}
