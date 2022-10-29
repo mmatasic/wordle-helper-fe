@@ -2,14 +2,34 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  columns: auto 1;
   margin-top: 3rem;
-  height: 100vh;
+  height: 50vh;
+}
+
+.break{
+  flex-basis: 100%;
+  width: 0px; 
+  height: 0px; 
+  overflow: hidden;
 }
 
 .result{
-  display: flex;
+  display:flexbox;
+  height: fit-content;
+  width: 15em;
+  word-break:break-word;
 }
 
+.possible .topTip .suggestion {
+  width: inherit;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+span {
+  white-space: nowrap;
+}
 .container {
   display: grid;
   grid-template-columns: 3rem 3rem 3rem 3rem 3rem;

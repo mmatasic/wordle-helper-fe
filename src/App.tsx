@@ -1,14 +1,15 @@
 import React, { useState, useEffect} from 'react';
 import './App.css';
 import Grid from './components/Grid'
+import {IapiResponse} from './model/IapiResponse'
 import GraphemeSplitter from 'grapheme-splitter';
 import axios from "axios"
 
 function App() {
-  const baseApiUrl= "http://mmatasic.duckdns.org:5000/wordle?lang=hr&globs="
+  const baseApiUrl= "http://192.168.0.22:5000/wordle?lang=hr&globs="
   const [guess, setGuess] = useState("");
   const [states, setStates] = useState((new Array<number>(30)).fill(0));
-  const [apiResponse, setApiResponse] = useState({eliminationSuggestions:[{}], possible:[], topTip:[]});
+  const [apiResponse, setApiResponse] = useState<IapiResponse|undefined>();
   const onChar = (value: string) => {
       setGuess(`${guess}${value}`)
   }
@@ -21,7 +22,6 @@ function App() {
 
   const onEnter = () => {
    apiCall(); 
-   console.log(apiResponse);
   }
 
   function constructApiUrl(): string{
@@ -65,7 +65,7 @@ function App() {
     axios
         .get(constructApiUrl())
             .then((response) => {
-                setApiResponse(response.data);
+                setApiResponse(JSON.parse(response.data));
             })
         .catch((error) => {
             console.log(error);
@@ -95,13 +95,31 @@ function App() {
           states={states}
           onItemClick={onItemClick}
           />
-    <div className='result'>
-      
-      {apiResponse.possible && 
-        <div className='possible'><ul>{apiResponse.possible.map((item,index:number) => {return <li key={index}>{item}</li>})}</ul></div>
+    <div className="break"></div>
+    <div className="result">
+      {apiResponse && apiResponse.possible && 
+        <>
+          <h3>possible:</h3>
+          <div className="possible">
+            {apiResponse && apiResponse.possible.map((item,index:number) => {return <span key={index}>{item}&nbsp;</span>})}
+          </div>
+        </>
+      }
+      {apiResponse && apiResponse.topTip && apiResponse.topTip.length > 0 && 
+        <>
+          <h3>tip:</h3>
+          <div className='topTip'>{apiResponse.topTip.map((item, index:number) => {return <span key={index}>{item}&nbsp;</span>})}</div>
+        </>
+      }
+      {apiResponse && apiResponse.eliminationSuggestions &&
+        <>
+          <h3>suggestion:</h3>
+          <div className="suggestions">
+            {apiResponse.eliminationSuggestions.map((item,index:number) => {return <span key={index}>{item[0]}({item[1]})&nbsp;</span>})}
+          </div>
+        </>
       }
     </div>
-      
     </div>
   );
   
